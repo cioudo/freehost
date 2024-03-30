@@ -1,4 +1,4 @@
 streamlit
 scratchattach
 requests
-execjs
+execnet
