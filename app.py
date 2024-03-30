@@ -1,20 +1,13 @@
 import streamlit as st
-import os
 
-def install_package(package):
-    exit_code = os.system(f"pip install -U {package}")
-    if exit_code != 0:
-        st.error(f"Failed to install package: {package}")
-
-def execute_code(code, requirements):
+def execute_code(code):
     try:
-        # Install required packages
-        for package in requirements.split('\n'):
-            if package.strip():
-                install_package(package.strip())
-
-        # Execute the code
-        exec(code)
+        global_vars = {}
+        local_vars = {}
+        exec(code, global_vars, local_vars)
+        # Print out any variables defined in the local namespace
+        for var_name, var_value in local_vars.items():
+            st.write(f"{var_name}: {var_value}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
@@ -22,10 +15,9 @@ def main():
     st.title("Code Executor")
 
     code = st.text_area("Enter your Python code here:")
-    requirements = st.text_area("Enter required packages (one per line):")
 
     if st.button("Execute"):
-        execute_code(code, requirements)
+        execute_code(code)
 
 if __name__ == "__main__":
     main()
