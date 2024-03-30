@@ -18,7 +18,6 @@ PyTorch
 XGBoost
 LightGBM
 CatBoost
-Hugging Face Transformers
 OpenCV
 FastAI
 NLTK
