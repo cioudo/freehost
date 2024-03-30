@@ -1,11 +1,15 @@
 import streamlit as st
-import execjs
+import execnet
 
 def execute_code(code):
     try:
-        # Use execjs to execute Python code dynamically
-        ctx = execjs.compile(code)
-        result = ctx.eval("executed_code()")
+        # Create a gateway to the Python interpreter
+        gateway = execnet.makegateway()
+
+        # Execute the Python code dynamically
+        channel = gateway.remote_exec(code)
+        result = channel.receive()
+
         st.success(f"Code executed successfully. Result: {result}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
