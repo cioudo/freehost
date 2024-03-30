@@ -2,7 +2,9 @@ import streamlit as st
 import os
 
 def install_package(package):
-    os.system(f"pip install -U {package}")
+    exit_code = os.system(f"pip install -U {package}")
+    if exit_code != 0:
+        st.error(f"Failed to install package: {package}")
 
 def execute_code(code, requirements):
     try:
